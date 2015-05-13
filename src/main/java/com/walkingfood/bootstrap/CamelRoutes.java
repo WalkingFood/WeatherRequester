@@ -24,7 +24,7 @@ public class CamelRoutes extends SpringRouteBuilder {
 
         //For getting information from the Camel Weather endpoint
         from("seda:request/weather")
-                .to("weather:foo?location=Madrid,Spain")
+                .to("weather:foo")
                 .to("log:com.walkingfood?showAll=true");
     }
 }

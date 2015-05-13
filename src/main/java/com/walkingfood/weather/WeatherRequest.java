@@ -5,7 +5,6 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,7 @@ public class WeatherRequest {
 
     static Logger logger = LoggerFactory.getLogger(WeatherRequest.class);
 
-    @Value("${weather.apiKey}")
-    String apiKey;
+    private static String apiKey = null;
 
     @EndpointInject
     ProducerTemplate template;
@@ -39,10 +37,14 @@ public class WeatherRequest {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (location != null) {
+            logger.info("Looking up weather information for " + location);
             stringBuilder.append(location);
         }
+        else {
+            logger.info("Looking up weather information for your current location");
+        }
 
-        if (!getAPIkey().equalsIgnoreCase("test")){
+        if (getAPIkey() != null){
             if (stringBuilder.length() > 1){
                 stringBuilder.append("&");
                 stringBuilder.append(apiKey);
@@ -63,8 +65,8 @@ public class WeatherRequest {
     }
 
     private String getAPIkey(){
-        if (apiKey != null && apiKey.equalsIgnoreCase("test")){
-            String key = new CommonUtils().getLocalProperty("weather.apiKey");
+        if (apiKey == null) {
+            String key = CommonUtils.getLocalProperty("weather.apiKey");
             if (key != null){
                 apiKey = key;
             }
