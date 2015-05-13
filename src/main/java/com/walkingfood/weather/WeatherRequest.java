@@ -1,7 +1,10 @@
 package com.walkingfood.weather;
 
+import com.walkingfood.utils.CommonUtils;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherRequest {
 
-    @Value("$(weather.apiKey)")
+    static Logger logger = LoggerFactory.getLogger(WeatherRequest.class);
+
+    @Value("${weather.apiKey}")
     String apiKey;
 
     @EndpointInject
@@ -37,7 +42,7 @@ public class WeatherRequest {
             stringBuilder.append(location);
         }
 
-        if (!apiKey.isEmpty() && !apiKey.equalsIgnoreCase("test")){
+        if (!getAPIkey().equalsIgnoreCase("test")){
             if (stringBuilder.length() > 1){
                 stringBuilder.append("&");
                 stringBuilder.append(apiKey);
@@ -55,5 +60,15 @@ public class WeatherRequest {
         else {
             template.requestBody(ROUTE, EMPTY_BODY);
         }
+    }
+
+    private String getAPIkey(){
+        if (apiKey != null && apiKey.equalsIgnoreCase("test")){
+            String key = new CommonUtils().getLocalProperty("weather.apiKey");
+            if (key != null){
+                apiKey = key;
+            }
+        }
+        return apiKey;
     }
 }

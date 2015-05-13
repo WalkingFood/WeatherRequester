@@ -17,4 +17,4 @@ build/
 lib/
 
 # Local properties file - contains keys, should not be uploaded
-src/main/resources/local.yml
+src/main/resources/local.properties
