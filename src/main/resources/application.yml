@@ -15,3 +15,6 @@ routes:
   to:
     finish: seda:finish
 #
+weather:
+  apiKey: test
+#
