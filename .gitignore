@@ -1,0 +1,17 @@
+# IntelliJ files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Built files
+out/
+
+# Everything from Gradle
+gradle/
+.gradle/
+gradlew/
+build/
+
+# Library files
+lib/

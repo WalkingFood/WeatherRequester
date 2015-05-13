@@ -1,0 +1,17 @@
+#
+# This is our properties file
+#
+#
+spring:
+#
+logging:
+  level:
+    com:
+      walkingfood: DEBUG
+#
+routes:
+  from:
+    x: seda:start
+  to:
+    y: seda:finish
+#

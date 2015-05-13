@@ -1,0 +1,41 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+def camelVersion = "2.15.2"
+
+buildscript {
+
+    ext {
+        springBootVersion = '1.2.3.RELEASE'
+    }
+
+    repositories {
+        mavenCentral()
+        maven{url "http://repo.spring.io/snapshot"}
+        maven{url "http://repo.spring.io/milestone"}
+        maven{url "http://repo.spring.io/plugins-release"}
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+jar {
+    baseName = "SpringBootTemplate"
+}
+
+repositories {
+    mavenCentral()
+    maven{url "http://repo.spring.io/snapshot"}
+    maven{url "http://repo.spring.io/milestone"}
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.apache.camel:camel-core:${camelVersion}"
+    compile "org.apache.camel:camel-spring:${camelVersion}"
+    compile "org.apache.camel:camel-spring-boot:${camelVersion}"
+    compile "org.apache.camel:camel-weather:${camelVersion}"
+}
