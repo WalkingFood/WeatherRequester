@@ -11,7 +11,7 @@ logging:
 #
 routes:
   from:
-    x: seda:start
+    start: seda:start
   to:
-    y: seda:finish
+    finish: seda:finish
 #
