@@ -1,9 +1,8 @@
-package com.walkingfood.test;
+package com.walkingfood.example;
 
 import org.apache.camel.Consume;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Part of SpringBootTemplate.
  */
 @Service
-public class TestService {
+public class ExampleService {
 
     @EndpointInject
     ProducerTemplate template;
