@@ -16,7 +16,8 @@ public class TestService {
     @EndpointInject
     ProducerTemplate template;
 
-    @Scheduled(initialDelay = 100, fixedDelay = 2000)
+    //If we'd like to run this test at start=up, uncomment the @Scheduled annotation
+//    @Scheduled(initialDelay = 100, fixedDelay = 2000)
     public void runTest(){
         System.err.println("Sending messages");
         template.sendBody("seda:start", "Plain route test worked");
