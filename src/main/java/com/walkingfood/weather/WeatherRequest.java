@@ -1,10 +1,13 @@
 package com.walkingfood.weather;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
 import com.walkingfood.utils.CommonUtils;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import org.springframework.stereotype.Service;
  * Part of WeatherRequester.
  */
 @Service
-public class WeatherRequest {
+public class WeatherRequest implements CommandLineRunner{
 
     static Logger logger = LoggerFactory.getLogger(WeatherRequest.class);
 
@@ -27,9 +30,55 @@ public class WeatherRequest {
     private static final String HEADER_NAME = "CamelWeatherLocation";
     private static final String EMPTY_BODY = "";
 
-    @Scheduled(initialDelay = 100, fixedDelay = 20000)
+    private static final String PARAM_LAT = "-lat or -latitude";
+    private static final String PARAM_LON = "-lon or -longitude";
+
+
+    @Override
+    public void run(String... args) throws Exception {
+        /*
+            Check for any CL arguments. If none found, go with the default
+            and check the weather at the user's location. If a --location arg
+            is found, check the weather at that location.
+         */
+
+        if (args.length == 0){
+            requestWeather();
+        }
+        else {
+            WeatherCLParser clParser = new WeatherCLParser();
+            new JCommander(clParser, args);
+            if (clParser.getLocation() != null){
+                // TODO Provide better input cleaning
+                requestWeather(
+                        clParser.getLocation().replaceAll(
+                            "[|&;:]", ""
+                ));
+            }
+            else if (clParser.getLatitude() != null){
+                if (clParser.getLongitude() != null){
+                    requestWeather(clParser.getLatitude(), clParser.getLongitude());
+                }
+                else {
+                    throw new ParameterException("Parameter " + PARAM_LON + " should be included when using parameter " + PARAM_LAT);
+                }
+            }
+            else if (clParser.getLongitude() != null){
+                throw new ParameterException("Parameter " + PARAM_LAT + " should be included when using parameter " + PARAM_LON);
+            }
+            else {
+                System.err.println("Parameters not recognized: returning weather for current location");
+            }
+        }
+    }
+
+//    @Scheduled(initialDelay = 100, fixedDelay = 20000)
     public void requestWeather(){
         requestWeather(null);
+    }
+
+    public void requestWeather(String lat, String lon){
+
     }
 
     public void requestWeather(String location){

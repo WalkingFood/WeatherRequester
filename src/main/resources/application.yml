@@ -3,6 +3,8 @@
 #
 #
 spring:
+  main:
+    show_banner: false
 #
 logging:
   level:
