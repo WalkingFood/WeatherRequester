@@ -24,7 +24,7 @@ public class WeatherCLParser {
                     "Must be accompanied by a latitude value.")
     private String longitude = null;
 
-    @Parameter(names = {"-lat", "-latitude"},
+    @Parameter(names = {"-loc", "-location"},
     description = "The name of the location you would like to examine. For example, \"Madrid,Spain\"")
     private String location = null;
 

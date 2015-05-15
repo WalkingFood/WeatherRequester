@@ -8,7 +8,6 @@ import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
@@ -72,13 +71,17 @@ public class WeatherRequest implements CommandLineRunner{
         }
     }
 
-//    @Scheduled(initialDelay = 100, fixedDelay = 20000)
     public void requestWeather(){
         requestWeather(null);
     }
 
     public void requestWeather(String lat, String lon){
-
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("0&lat=");
+        stringBuilder.append(lat);
+        stringBuilder.append("&lon=");
+        stringBuilder.append(lon);
+        requestWeather(stringBuilder.toString());
     }
 
     public void requestWeather(String location){
@@ -115,10 +118,7 @@ public class WeatherRequest implements CommandLineRunner{
 
     private String getAPIkey(){
         if (apiKey == null) {
-            String key = CommonUtils.getLocalProperty("weather.apiKey");
-            if (key != null){
-                apiKey = key;
-            }
+            apiKey = CommonUtils.getLocalProperty("weather.apiKey");
         }
         return apiKey;
     }
