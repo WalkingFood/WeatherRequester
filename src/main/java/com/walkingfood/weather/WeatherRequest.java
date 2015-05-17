@@ -42,39 +42,64 @@ public class WeatherRequest implements CommandLineRunner{
          */
 
         if (args.length == 0){
+            // No args found - request info on current location
             requestWeather();
         }
         else {
+            // At least one arg was found, so let's see which arg it was
             WeatherCLParser clParser = new WeatherCLParser();
             new JCommander(clParser, args);
+
+            // If there was a -loc arg...
             if (clParser.getLocation() != null){
+                // There is no validation on the content of the location
+                // String, so we need to do a little cleaning here
                 // TODO Provide better input cleaning
                 requestWeather(
                         clParser.getLocation().replaceAll(
                             "[|&;:]", ""
                 ));
             }
+
+            // If there was a -lat arg...
             else if (clParser.getLatitude() != null){
+
+                // If there was also a -lon arg...
                 if (clParser.getLongitude() != null){
                     requestWeather(clParser.getLatitude(), clParser.getLongitude());
                 }
+
+                // If there was no -lon arg...
                 else {
                     throw new ParameterException("Parameter " + PARAM_LON + " should be included when using parameter " + PARAM_LAT);
                 }
             }
+
+            // If there was a -lon arg with no -lat arg...
             else if (clParser.getLongitude() != null){
                 throw new ParameterException("Parameter " + PARAM_LAT + " should be included when using parameter " + PARAM_LON);
             }
+
+            // If the args weren't recognized...
             else {
                 System.err.println("Parameters not recognized: returning weather for current location");
             }
         }
     }
 
+    /**
+     * Request weather information for the current location
+     */
     public void requestWeather(){
         requestWeather(null);
     }
 
+    /**
+     * Request weather information for the given lat and lon coordinates
+     *
+     * @param lat - the provided latitude (must be a valid Double)
+     * @param lon - the provided longitude (must be a valid Double)
+     */
     public void requestWeather(String lat, String lon){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("0&lat=");
@@ -84,6 +109,13 @@ public class WeatherRequest implements CommandLineRunner{
         requestWeather(stringBuilder.toString());
     }
 
+    /**
+     * Request weather information for a given location String. This
+     * String can be either a plain-text "City, Country" name or it
+     * can be a formatted lat/lon coordinate input.
+     *
+     * @param location - the provided location String.
+     */
     public void requestWeather(String location){
 
         StringBuilder stringBuilder = new StringBuilder();
