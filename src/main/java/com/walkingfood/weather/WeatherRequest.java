@@ -3,6 +3,7 @@ package com.walkingfood.weather;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.walkingfood.utils.CommonUtils;
+import com.walkingfood.weather.cli.WeatherCLParser;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;

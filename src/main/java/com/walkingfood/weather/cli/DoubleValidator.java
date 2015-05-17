@@ -1,4 +1,4 @@
-package com.walkingfood.weather;
+package com.walkingfood.weather.cli;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;

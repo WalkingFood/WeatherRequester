@@ -1,5 +1,6 @@
 package com.walkingfood.weather;
 
+import org.apache.camel.Consume;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,4 +9,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WeatherConsumer {
+
+    @Consume(uri = "seda:consume/weather")
+    public void weatherResponseConsumer(String jsonResponse){
+
+    }
 }
