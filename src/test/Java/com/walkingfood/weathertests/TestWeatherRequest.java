@@ -15,12 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestWeatherRequest {
 
     @Test
-    void testCamelConnectivity(){
+    public void testCamelConnectivity(){
 
     }
 
     @Test
-    void testWeatherMessage(){
+    public void testWeatherMessage(){
 
     }
 }
