@@ -3,7 +3,6 @@ package com.walkingfood.weather.cli;
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
-import java.util.regex.Pattern;
 
 /**
  * Created by Andrew Fooden on 5/17/2015.

@@ -10,6 +10,9 @@ logging:
   level:
     com:
       walkingfood: DEBUG
+    org:
+      apache: WARN
+      springframework: WARN
 #
 routes:
   from:

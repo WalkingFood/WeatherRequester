@@ -1,7 +1,6 @@
 package com.walkingfood.weather.cli;
 
 import com.beust.jcommander.Parameter;
-import com.walkingfood.weather.cli.DoubleValidator;
 
 /**
  * Created by Andrew Fooden on 5/14/2015.
