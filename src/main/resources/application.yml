@@ -20,3 +20,6 @@ routes:
   to:
     finish: seda:finish
 #
+server:
+  port: 8181
+#

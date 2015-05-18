@@ -5,11 +5,13 @@ import com.beust.jcommander.ParameterException;
 import com.walkingfood.weather.WeatherRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Andrew Fooden on 5/18/2015.
  * Part of WeatherRequester.
  */
+@Service
 public class WeatherRunner implements CommandLineRunner {
 
     private static final String PARAM_LAT = "-lat or -latitude";
@@ -28,7 +30,8 @@ public class WeatherRunner implements CommandLineRunner {
 
         if (args.length == 0){
             // No args found - request info on current location
-            weatherRequest.requestWeather();
+            String response = weatherRequest.requestWeather();
+            System.err.println(response);
         }
         else {
             // At least one arg was found, so let's see which arg it was

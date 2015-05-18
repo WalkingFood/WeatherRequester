@@ -30,8 +30,8 @@ public class WeatherRequest {
     /**
      * Request weather information for the current location
      */
-    public void requestWeather(){
-        requestWeather(null);
+    public String requestWeather(){
+        return requestWeather(null);
     }
 
     /**
@@ -40,13 +40,13 @@ public class WeatherRequest {
      * @param lat - the provided latitude (must be a valid Double)
      * @param lon - the provided longitude (must be a valid Double)
      */
-    public void requestWeather(String lat, String lon){
+    public String requestWeather(String lat, String lon){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("0&lat=");
         stringBuilder.append(lat);
         stringBuilder.append("&lon=");
         stringBuilder.append(lon);
-        requestWeather(stringBuilder.toString());
+        return requestWeather(stringBuilder.toString());
     }
 
     /**
@@ -56,7 +56,7 @@ public class WeatherRequest {
      *
      * @param location - the provided location String.
      */
-    public void requestWeather(String location){
+    public String requestWeather(String location){
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -76,7 +76,7 @@ public class WeatherRequest {
         }
 
         if (stringBuilder.length() > 1) {
-            template.requestBodyAndHeader(
+            return template.requestBodyAndHeader(
                     ROUTE,
                     EMPTY_BODY,
                     HEADER_NAME,
@@ -84,7 +84,7 @@ public class WeatherRequest {
                     String.class);
         }
         else {
-            template.requestBody(ROUTE, EMPTY_BODY);
+            return template.requestBody(ROUTE, EMPTY_BODY, String.class);
         }
     }
 
