@@ -30,8 +30,7 @@ public class WeatherRunner implements CommandLineRunner {
 
         if (args.length == 0){
             // No args found - request info on current location
-            String response = weatherRequest.requestWeather();
-            System.err.println(response);
+            weatherRequest.requestWeather();
         }
         else {
             // At least one arg was found, so let's see which arg it was
