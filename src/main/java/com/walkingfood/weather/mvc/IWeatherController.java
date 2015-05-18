@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface IWeatherController {
 
     @RequestMapping(
-            value = "get/",
+            value = "get/serverloc",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE )
     String getWeather();
