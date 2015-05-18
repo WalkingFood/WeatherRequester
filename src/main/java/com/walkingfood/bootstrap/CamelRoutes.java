@@ -26,8 +26,13 @@ public class CamelRoutes extends SpringRouteBuilder {
         from("seda:request/weather")
                 .to("weather:foo")
                 .multicast()
-                    .to("log:com.walkingfood?showAll=true",
-                        "seda:consume/weather")
+                .to(
+                        // Send to the Camel logger
+//                        "log:com.walkingfood?showAll=true",
+
+                        // Send to an internal consumer
+                        "seda:consume/weather"
+                )
                 .end();
     }
 }

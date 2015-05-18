@@ -33,10 +33,30 @@ public class WeatherConsumer {
         }
 
         if (json != null){
+
+            // To print nicely to log without using PrettyPrint
             printFromJSON(json, 0);
+
+            /*
+            // To print using PrettyPrint
+            try {
+                logger.debug(
+                        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json)
+                );
+            } catch (JsonProcessingException e) {
+                logger.error("Could not read JSON node when using PrettyPrint", e);
+            }
+            */
         }
     }
 
+    /**
+     * Formatting and printing from a JsonNode with recursion
+     * (in case you don't like to use PrettyPrint).
+     *
+     * @param jsonNode - the JSON node to read
+     * @param depth - the depth of the input node from the root node
+     */
     private void printFromJSON(JsonNode jsonNode, int depth){
         JsonNode node;
         String name;
