@@ -99,13 +99,14 @@ public class CommonUtils {
      */
     private static void printFromJSON(JsonNode jsonNode, int depth){
 
-        getSpacer().setLength(0);
-        for (int i = 0; i < depth; i++){
-            spacer.append(spacing);
-        }
-
         Iterator<String> fieldNames = jsonNode.fieldNames();
         while (fieldNames.hasNext()){
+
+            getSpacer().setLength(0);
+            for (int i = 0; i < depth; i++){
+                spacer.append(spacing);
+            }
+
             parserName = fieldNames.next();
             parserNode = jsonNode.get(parserName);
             if (parserNode.isValueNode()){
