@@ -1,10 +1,12 @@
 package com.walkingfood.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Properties;
 
 /**
@@ -24,6 +26,26 @@ public class CommonUtils {
             self = new CommonUtils();
         }
         return self;
+    }
+
+    private static final String spacing = "    ";
+    private static JsonNode parserNode;
+    private static String parserName;
+    private static StringBuilder stringBuilder;
+    private static StringBuilder spacer;
+
+    private static StringBuilder getStringBuilder(){
+        if (stringBuilder == null){
+            stringBuilder = new StringBuilder();
+        }
+        return stringBuilder;
+    }
+
+    private static StringBuilder getSpacer(){
+        if (spacer == null){
+            spacer = new StringBuilder();
+        }
+        return spacer;
     }
 
     /**
@@ -55,5 +77,44 @@ public class CommonUtils {
         }
 
         return returnString;
+    }
+
+    /**
+     * Formatting and printing from a JsonNode with recursion
+     * (in case you don't like to use PrettyPrint).
+     *
+     * @param jsonNode - the JSON node to read
+     */
+    public static String getParsedJsonNode(JsonNode jsonNode){
+        getStringBuilder().setLength(0);
+        printFromJSON(jsonNode, 0);
+        return getStringBuilder().toString();
+    }
+
+    /**
+     * Adds to the static StringBuilder to recursively parse a JsonNode.
+     *
+     * @param jsonNode - the JSON node to read
+     * @param depth - the depth of the input node from the root node
+     */
+    private static void printFromJSON(JsonNode jsonNode, int depth){
+
+        getSpacer().setLength(0);
+        for (int i = 0; i < depth; i++){
+            spacer.append(spacing);
+        }
+
+        Iterator<String> fieldNames = jsonNode.fieldNames();
+        while (fieldNames.hasNext()){
+            parserName = fieldNames.next();
+            parserNode = jsonNode.get(parserName);
+            if (parserNode.isValueNode()){
+                getStringBuilder().append(spacer.toString() + "{ " + parserName + " : " + parserNode.asText() + " }\r\n");
+            }
+            else {
+                getStringBuilder().append(spacer.toString() + "{ " + parserName + " }\r\n");
+                printFromJSON(parserNode, depth + 1);
+            }
+        }
     }
 }
