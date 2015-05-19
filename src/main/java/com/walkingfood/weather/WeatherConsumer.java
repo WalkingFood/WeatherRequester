@@ -2,6 +2,7 @@ package com.walkingfood.weather;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walkingfood.utils.CommonUtils;
 import org.apache.camel.Consume;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,9 @@ public class WeatherConsumer {
         if (json != null){
 
             // To print nicely to log without using PrettyPrint
-            printFromJSON(json, 0);
+            logger.debug( "\r\n" +
+                CommonUtils.getParsedJsonNode(json)
+            );
 
             /*
             // To print using PrettyPrint
@@ -47,35 +50,6 @@ public class WeatherConsumer {
                 logger.error("Could not read JSON node when using PrettyPrint", e);
             }
             */
-        }
-    }
-
-    /**
-     * Formatting and printing from a JsonNode with recursion
-     * (in case you don't like to use PrettyPrint).
-     *
-     * @param jsonNode - the JSON node to read
-     * @param depth - the depth of the input node from the root node
-     */
-    private void printFromJSON(JsonNode jsonNode, int depth){
-        JsonNode node;
-        String name;
-        final StringBuilder spacer = new StringBuilder();
-        for (int i = 0; i < depth; i++){
-            spacer.append(spacing);
-        }
-
-        Iterator<String> fieldNames = jsonNode.fieldNames();
-        while (fieldNames.hasNext()){
-            name = fieldNames.next();
-            node = jsonNode.get(name);
-            if (node.isValueNode()){
-                logger.debug(spacer.toString() + "{ " + name + " : " + node.asText() + " }");
-            }
-            else {
-                logger.debug(spacer.toString() + "{ " + name + " }");
-                printFromJSON(node, depth + 1);
-            }
         }
     }
 }

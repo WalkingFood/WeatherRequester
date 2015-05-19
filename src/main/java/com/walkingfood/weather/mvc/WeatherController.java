@@ -1,5 +1,8 @@
 package com.walkingfood.weather.mvc;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walkingfood.utils.CommonUtils;
 import com.walkingfood.weather.WeatherRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -21,9 +25,12 @@ public class WeatherController implements IWeatherController{
     @Autowired
     WeatherRequest weatherRequest;
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static JsonNode json = null;
+
     @Override
     public String getWeather(){
-        return weatherRequest.requestWeather();
+        return getParsedJsonString(weatherRequest.requestWeather());
     }
 
     @Override
@@ -43,7 +50,7 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLocation != null) {
-            return weatherRequest.requestWeather(utfLocation);
+            return getParsedJsonString(weatherRequest.requestWeather(utfLocation));
         }
         else {
             return "Error: please try your request again!";
@@ -72,7 +79,22 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLat != null && utfLon != null) {
-            return weatherRequest.requestWeather(utfLat, utfLon);
+            return getParsedJsonString(weatherRequest.requestWeather(utfLat, utfLon));
+        }
+        else {
+            return "Error: please try your request again!";
+        }
+    }
+
+    private String getParsedJsonString(String input){
+        try {
+            json = mapper.readTree(input);
+        } catch (IOException e) {
+            logger.error("IOException while parsing the JSON response from the weather service.", e);
+        }
+
+        if (json != null){
+            return CommonUtils.getParsedJsonNode(json);
         }
         else {
             return "Error: please try your request again!";
