@@ -17,6 +17,14 @@ public class WeatherRequestDTO {
         this.period = period;
     }
 
+    /**
+     * Create, populate and return a new WeatherRequestDTO object.
+     * @param location
+     * @param latitude
+     * @param longitude
+     * @param period
+     * @return
+     */
     public static WeatherRequestDTO getInstance(
             String location,
             String latitude,
