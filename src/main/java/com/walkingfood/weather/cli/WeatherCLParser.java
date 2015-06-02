@@ -1,6 +1,7 @@
 package com.walkingfood.weather.cli;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.validators.PositiveInteger;
 
 /**
  * Created by Andrew Fooden on 5/14/2015.
@@ -25,6 +26,7 @@ public class WeatherCLParser {
     private String location = null;
 
     @Parameter(names = {"-p", "-period"},
+            validateWith = PositiveInteger.class,
             description = "The period of time (in days) to retrieve weather data for. Must be one of " +
                     "the following options: 0 (default), 5, 7, 14.")
     private int period = 0;
