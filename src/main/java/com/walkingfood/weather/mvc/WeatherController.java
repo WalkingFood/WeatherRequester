@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,13 +30,12 @@ public class WeatherController implements IWeatherController{
     private static JsonNode json = null;
 
     @Override
-    public String getWeather(){
+    public String getWeather(@RequestParam(value = "period", defaultValue = "0") int period) {
         return getParsedJsonString(weatherRequest.requestWeather());
     }
 
     @Override
-    public String getWeatherAtLocation(@PathVariable String location) {
-
+    public String getWeatherAtLocation(@PathVariable("location") String location, @RequestParam(value = "period", defaultValue = "0") int period) {
         // Because Spring encodes path variables in a weird-ass format,
         // we're going to re-code them into UTF-8 before dealing with them.
         byte[] bytes = null;
@@ -58,8 +58,7 @@ public class WeatherController implements IWeatherController{
     }
 
     @Override
-    public String getWeatherAtCoords(@PathVariable String lat, @PathVariable String lon) {
-
+    public String getWeatherAtCoords(@PathVariable("lat") String lat, @PathVariable("lon") String lon, @RequestParam(value = "period", defaultValue = "0") int period) {
         // Because Spring encodes path variables in a weird-ass format,
         // we're going to re-code them into UTF-8 before dealing with them.
         byte[] bytes = null;

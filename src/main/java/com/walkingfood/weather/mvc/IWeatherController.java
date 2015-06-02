@@ -2,10 +2,7 @@ package com.walkingfood.weather.mvc;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Andrew Fooden on 5/18/2015.
@@ -19,17 +16,20 @@ public interface IWeatherController {
             value = "get/serverloc",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    @ResponseBody String getWeather();
+    @ResponseBody String getWeather(@RequestParam(value = "period", defaultValue = "0") int period);
 
     @RequestMapping(
-            value = "get/{location}",
+            value = "get/location/{location}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    @ResponseBody String getWeatherAtLocation(@PathVariable String location);
+    @ResponseBody String getWeatherAtLocation(@PathVariable("location") String location,
+                                              @RequestParam(value = "period", defaultValue = "0") int period);
 
     @RequestMapping(
-            value = "get/coords/{lat}/{lon}",
+            value = "get/coords/lat/{lat}/lon/{lon}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    @ResponseBody String getWeatherAtCoords(@PathVariable String lat, @PathVariable String lon);
+    @ResponseBody String getWeatherAtCoords(@PathVariable("lat") String lat,
+                                            @PathVariable("lon") String lon,
+                                            @RequestParam(value = "period", defaultValue = "0") int period);
 }

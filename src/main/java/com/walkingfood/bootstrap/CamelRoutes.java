@@ -24,7 +24,16 @@ public class CamelRoutes extends SpringRouteBuilder {
 
         //For getting information from the Camel Weather endpoint
         from("seda:request/weather")
-                .to("weather:foo")
+                .choice()
+                    .when(header("period").isEqualTo(5))
+                        .to("weather:foo?period=5")
+                    .when(header("period").isEqualTo(7))
+                        .to("weather:foo?period=7")
+                    .when(header("period").isEqualTo(14))
+                        .to("weather:foo?period=14")
+                    .otherwise()
+                        .to("weather:foo")
+                .end()
                 .multicast()
                 .to(
                         // Send to the Camel logger
