@@ -35,11 +35,17 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     testCompile "org.springframework.boot:spring-boot-starter-test"
+
     compile "org.apache.camel:camel-core:${camelVersion}"
     compile "org.apache.camel:camel-spring:${camelVersion}"
     compile "org.apache.camel:camel-spring-boot:${camelVersion}"
     compile "org.apache.camel:camel-weather:${camelVersion}"
+
     compile "com.beust:jcommander:1.48"
+
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.postgresql:postgresql:9.4-1201-jdbc41"
+    compile "com.h2database:h2:1.4.186"
 }
 
 

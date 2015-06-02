@@ -5,6 +5,19 @@
 spring:
   main:
     show_banner: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    hibernate:
+#     options for ddl-auto are: validate, update, create, create-drop
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        formate_sql: false
+        show_sql: false
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 #
 logging:
   level:
