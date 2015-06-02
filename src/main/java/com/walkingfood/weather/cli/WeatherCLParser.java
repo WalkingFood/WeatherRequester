@@ -24,6 +24,11 @@ public class WeatherCLParser {
     description = "The name of the location you would like to examine. For example, \"Madrid,Spain\"")
     private String location = null;
 
+    @Parameter(names = {"-p", "-period"},
+            description = "The period of time (in days) to retrieve weather data for. Must be one of " +
+                    "the following options: 0 (default), 5, 7, 14.")
+    private int period = 0;
+
 
     public String getLatitude() {
         return latitude;
@@ -35,5 +40,9 @@ public class WeatherCLParser {
 
     public String getLocation() {
         return location;
+    }
+
+    public int getPeriod() {
+        return period;
     }
 }

@@ -30,7 +30,7 @@ public class WeatherRunner implements CommandLineRunner {
 
         if (args.length == 0){
             // No args found - request info on current location
-            weatherRequest.requestWeather();
+            weatherRequest.requestWeather(0);
         }
         else {
             // At least one arg was found, so let's see which arg it was
@@ -44,8 +44,8 @@ public class WeatherRunner implements CommandLineRunner {
                 // TODO Provide better input cleaning
                 weatherRequest.requestWeather(
                         clParser.getLocation().replaceAll(
-                                "[|&;:]", ""
-                        ));
+                                "[|&;:]", ""),
+                        clParser.getPeriod());
             }
 
             // If there was a -lat arg...
@@ -53,7 +53,7 @@ public class WeatherRunner implements CommandLineRunner {
 
                 // If there was also a -lon arg...
                 if (clParser.getLongitude() != null){
-                    weatherRequest.requestWeather(clParser.getLatitude(), clParser.getLongitude());
+                    weatherRequest.requestWeather(clParser.getLatitude(), clParser.getLongitude(), clParser.getPeriod());
                 }
 
                 // If there was no -lon arg...

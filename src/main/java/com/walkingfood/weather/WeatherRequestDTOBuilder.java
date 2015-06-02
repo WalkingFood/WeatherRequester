@@ -28,7 +28,7 @@ public class WeatherRequestDTOBuilder {
         return this;
     }
 
-    public WeatherRequestDTOBuilder setPeriod(Integer period) {
+    public WeatherRequestDTOBuilder setPeriod(int period) {
         this.period = period;
         return this;
     }

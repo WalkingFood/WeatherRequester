@@ -34,9 +34,10 @@ public class WeatherRequest {
     /**
      * Request weather information for the current location
      */
-    public String requestWeather(){
+    public String requestWeather(int period){
         return requestWeather(
                 new WeatherRequestDTOBuilder()
+                        .setPeriod(period)
                         .build()
         );
     }
@@ -47,11 +48,12 @@ public class WeatherRequest {
      * @param lat - the provided latitude (must be a valid Double)
      * @param lon - the provided longitude (must be a valid Double)
      */
-    public String requestWeather(String lat, String lon){
+    public String requestWeather(String lat, String lon, int period){
         return requestWeather(
                 new WeatherRequestDTOBuilder()
                         .setLatitude(lat)
                         .setLongitude(lon)
+                        .setPeriod(period)
                         .build()
         );
     }
@@ -62,10 +64,11 @@ public class WeatherRequest {
      *
      * @param location - the location String
      */
-    public String requestWeather(String location){
+    public String requestWeather(String location, int period){
         return requestWeather(
                 new WeatherRequestDTOBuilder()
                         .setLocation(location)
+                        .setPeriod(period)
                         .build()
         );
     }

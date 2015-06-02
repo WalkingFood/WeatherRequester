@@ -31,7 +31,7 @@ public class WeatherController implements IWeatherController{
 
     @Override
     public String getWeather(@RequestParam(value = "period", defaultValue = "0") int period) {
-        return getParsedJsonString(weatherRequest.requestWeather());
+        return getParsedJsonString(weatherRequest.requestWeather(period));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLocation != null) {
-            return getParsedJsonString(weatherRequest.requestWeather(utfLocation));
+            return getParsedJsonString(weatherRequest.requestWeather(utfLocation, period));
         }
         else {
             return "Error: please try your request again!";
@@ -78,7 +78,7 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLat != null && utfLon != null) {
-            return getParsedJsonString(weatherRequest.requestWeather(utfLat, utfLon));
+            return getParsedJsonString(weatherRequest.requestWeather(utfLat, utfLon, period));
         }
         else {
             return "Error: please try your request again!";
