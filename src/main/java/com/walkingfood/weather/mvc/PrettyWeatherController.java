@@ -1,5 +1,8 @@
 package com.walkingfood.weather.mvc;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walkingfood.utils.CommonUtils;
 import com.walkingfood.weather.WeatherRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,23 +11,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by Andrew Fooden on 5/18/2015.
- * Part of WeatherRequester.
+ * © emozia, inc 2015
+ * Created by Andrew on 6/8/2015.
  */
 @Component
-public class WeatherController implements IWeatherController{
+public class PrettyWeatherController implements IPrettyWeatherController{
 
-    static Logger logger = LoggerFactory.getLogger(WeatherController.class);
+    static Logger logger = LoggerFactory.getLogger(PrettyWeatherController.class);
 
     @Autowired
     WeatherRequest weatherRequest;
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static JsonNode json = null;
+
     @Override
     public String getWeather(@RequestParam(value = "period", defaultValue = "0") int period) {
-        return weatherRequest.requestWeather(period);
+        return getPrettyJsonString(weatherRequest.requestWeather(period));
     }
 
     @Override
@@ -43,7 +50,7 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLocation != null) {
-            return weatherRequest.requestWeather(utfLocation, period);
+            return getPrettyJsonString(weatherRequest.requestWeather(utfLocation, period));
         }
         else {
             return "Error: please try your request again!";
@@ -71,7 +78,22 @@ public class WeatherController implements IWeatherController{
         }
 
         if (utfLat != null && utfLon != null) {
-            return weatherRequest.requestWeather(utfLat, utfLon, period);
+            return getPrettyJsonString(weatherRequest.requestWeather(utfLat, utfLon, period));
+        }
+        else {
+            return "Error: please try your request again!";
+        }
+    }
+
+    private String getPrettyJsonString(String input){
+        try {
+            json = mapper.readTree(input);
+        } catch (IOException e) {
+            logger.error("IOException while parsing the JSON response from the weather service.", e);
+        }
+
+        if (json != null){
+            return CommonUtils.getParsedJsonNode(json);
         }
         else {
             return "Error: please try your request again!";
