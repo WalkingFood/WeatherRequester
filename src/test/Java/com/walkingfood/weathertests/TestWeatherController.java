@@ -1,6 +1,5 @@
 package com.walkingfood.weathertests;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walkingfood.bootstrap.Application;
@@ -63,10 +62,7 @@ public class TestWeatherController {
         template = new TestRestTemplate();
     }
 
-    //TODO Expecting an exception now that we return prettyprint instead of JSON.
-    //TODO Need to change the mapping so that prettyprint is a requested param,
-    //TODO and test for that independently.
-    @Test(expected = JsonParseException.class)
+    @Test
     public void isServerLocValidJSON() throws Exception{
         ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
         JsonNode node = new ObjectMapper().readTree(response.getBody());
